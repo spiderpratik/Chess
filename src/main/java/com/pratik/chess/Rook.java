@@ -19,7 +19,7 @@ public class Rook extends Piece {
 		byte r = this.getSquare().rank();
 		int rdir = direction(r, target.rank());
 		for (; f < target.file() && r < target.rank(); f = (char) (f + fdir), r = (byte) (r + rdir))
-			if (!board.getSquares().get(Board.getString(f, r)).equals(Piece.BLANK))
+			if (!board.getSquares().get(Square.getString(f, r)).equals(Piece.BLANK))
 				return false;
 		return true;
 	}

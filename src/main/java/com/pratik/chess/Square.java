@@ -20,7 +20,7 @@ public class Square {
 		Map<String, Square> board = new Hashtable<String, Square>(85, .8f);
 		for (char f = 'a'; f <= 'h'; f++)
 			for (byte r = 1; r < 8; r++)
-				board.put(Board.getString(f, r), new Square(f, r));
+				board.put(getString(f, r), new Square(f, r));
 		return board;
 	}
 	
@@ -65,6 +65,10 @@ public class Square {
 	
 	@Override
 	public String toString() {
-		return Board.getString(file, rank);
+		return getString(file, rank);
+	}
+	
+	public static String getString(char file, byte rank) {
+		return new String(new char[] {file, (char) (rank + '0')});
 	}
 }

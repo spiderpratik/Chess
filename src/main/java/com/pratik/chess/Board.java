@@ -32,8 +32,25 @@ public class Board {
 		return board;
 	}
 	
-	public static String getString(char file, byte rank) {
-		return new String(new char[] {file, (char) (rank + '0')});
+	public Collection<Piece> getPieces(PieceType type, Color color) {
+		Collection<Piece> collection = new ArrayList<Piece>();
+		if (type == null) {
+			if (color != Color.WHITE)
+				collection.addAll(blacks);
+			if (color != Color.BLACK)
+				collection.addAll(whites);
+		}
+		else {
+			if (color != Color.WHITE)
+				for (Piece p : blacks)
+					if (p.getPieceType() == type)
+						collection.add(p);
+			if (color != Color.BLACK)
+				for (Piece p : whites)
+					if (p.getPieceType() == type)
+						collection.add(p);
+		}
+		return collection;
 	}
 
 	public void clear() throws InvalidPositionException {
@@ -105,7 +122,7 @@ public class Board {
 	}
 	
 	public Collection<Piece> getMovablePiecesTo(Square target, Color color) {
-		// TODO
+		// TODO (allow for color=null like in getPieces()
 		return null;
 	}
 	
@@ -171,6 +188,6 @@ public class Board {
 			}
 		}
 		
-		return getString(file, rank);
+		return Square.getString(file, rank);
 	}
 }
