@@ -27,6 +27,14 @@ public class Board {
 		log = new Logger();
 		setupStartPosition();
 	}
+	
+	public Map<String, Square> getSquares() {
+		return board;
+	}
+	
+	public static String getString(char file, byte rank) {
+		return new String(new char[] {file, (char) (rank + '0')});
+	}
 
 	public void clear() throws InvalidPositionException {
 		whites.clear();
@@ -163,6 +171,6 @@ public class Board {
 			}
 		}
 		
-		return new String(new char[] {file, (char) rank});
+		return getString(file, rank);
 	}
 }

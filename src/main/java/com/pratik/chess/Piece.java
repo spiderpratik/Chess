@@ -15,7 +15,7 @@ public abstract class Piece {
 
 	public static final Piece BLANK = new Piece(null, "blank", PieceType.BLANK) {
 		@Override
-		public boolean canMove(Square target) {
+		public boolean canMove(Square target, Board board) {
 			return false;
 		}
 	};
@@ -63,7 +63,7 @@ public abstract class Piece {
 		return square;
 	}
 
-	public abstract boolean canMove(Square target);
+	public abstract boolean canMove(Square target, Board board) throws InvalidSquareException;
 
 	@Override
 	public final String toString() {
@@ -85,7 +85,11 @@ public abstract class Piece {
 
 	public static final Collection<Piece> newPieces(Color color) {
 		List<Piece> pieces = new ArrayList<Piece>(20);
-		// ADD PIECESo
+		// ADD PIECES
 		return pieces;
+	}
+	
+	protected static int direction(int from, int to) {
+		return ((from < to) ? 1 : ((from > to) ? -1 : 0));
 	}
 }

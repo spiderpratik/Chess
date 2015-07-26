@@ -20,7 +20,7 @@ public class Square {
 		Map<String, Square> board = new Hashtable<String, Square>(85, .8f);
 		for (char f = 'a'; f <= 'h'; f++)
 			for (byte r = 1; r < 8; r++)
-				board.put(new String(new char[] {f, (char) r}), new Square(f, r));
+				board.put(Board.getString(f, r), new Square(f, r));
 		return board;
 	}
 	
@@ -51,7 +51,20 @@ public class Square {
 	}
 	
 	@Override
+	public boolean equals(Object o) {
+		if (o == this)
+			return true;
+		if (o == null)
+			return false;
+		if (o.getClass() != this.getClass())
+			return false;
+		if (!o.toString().equals(this.toString()))
+			return false;
+		return true;
+	}
+	
+	@Override
 	public String toString() {
-		return new String(new char[] {file, (char) rank});
+		return Board.getString(file, rank);
 	}
 }
