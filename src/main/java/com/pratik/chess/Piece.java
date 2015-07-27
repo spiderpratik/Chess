@@ -11,7 +11,7 @@ public abstract class Piece {
 	private Square square;
 	private PieceType type;
 
-	public static final String KINGSIDE = "kingside", QUEENSIDE = "queenside", PAWN = "pawn";
+	public static final String KINGSIDE = "kingside", QUEENSIDE = "queenside", PAWN = PieceType.PAWN.fullName();
 
 	public static final Piece BLANK = new Piece(null, "blank", PieceType.BLANK) {
 		@Override
@@ -67,10 +67,14 @@ public abstract class Piece {
 
 	@Override
 	public final String toString() {
+		System.err.println(color);
+		System.err.println(square);
+		System.err.println(origin);
+		System.err.println(type);
 		String str = getColor().toString() + " " + getOrigin() + " " + getPieceType().toString() + " at ";
 		try {
 			str += getSquare().toString();
-		} catch (InvalidSquareException e) {
+		} catch (NullPointerException | InvalidSquareException e) {
 			str += "null";
 		}
 		return str;
@@ -96,8 +100,7 @@ public abstract class Piece {
 			pieces.add(new Knight(color, Piece.QUEENSIDE));
 			pieces.add(new Bishop(color, Piece.KINGSIDE));
 			pieces.add(new Bishop(color, Piece.QUEENSIDE));
-		}
-		catch (InvalidPositionException e) {
+		} catch (InvalidPositionException e) {
 			e.printStackTrace();
 		}
 		return pieces;

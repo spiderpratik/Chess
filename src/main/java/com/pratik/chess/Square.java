@@ -16,11 +16,15 @@ public class Square {
 		this.rank = rank;
 	}
 
-	public static synchronized final Map<String, Square> newSquares() throws InvalidSquareException {
+	public static synchronized final Map<String, Square> newSquares() {
 		Map<String, Square> board = new Hashtable<String, Square>(85, .8f);
-		for (char f = 'a'; f <= 'h'; f++)
-			for (byte r = 1; r < 8; r++)
-				board.put(getString(f, r), new Square(f, r));
+		try {
+			for (char f = 'a'; f <= 'h'; f++)
+				for (byte r = 1; r <= 8; r++)
+					board.put(getString(f, r), new Square(f, r));
+		} catch (InvalidSquareException e) {
+			e.printStackTrace();
+		}
 		return board;
 	}
 

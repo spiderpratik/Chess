@@ -20,7 +20,7 @@ public class Board {
 	// Move Counter
 	private int fullmoves;
 
-	public Board() throws InvalidSquareException {
+	public Board() {
 		board = Square.newSquares();
 		whites = new ArrayList<Piece>(20);
 		blacks = new ArrayList<Piece>(20);
@@ -80,16 +80,20 @@ public class Board {
 		fullmoves = 1;
 		try {
 			for (Piece p : whites)
-				p.setSquare(board.get(getStandardSquare(p)));
+				board.get(getStandardSquare(p)).setPiece(p);
 			for (Piece p : blacks)
-				p.setSquare(board.get(getStandardSquare(p)));
-		} catch (InvalidPositionException | InvalidSquareException e) {
+				board.get(getStandardSquare(p)).setPiece(p);
+		} catch (InvalidPositionException e) {
 			e.printStackTrace();
 		}
 		castlewk = castlewq = castlebk = castlebq = true;
 		enPassant = null;
 	}
 	
+	public Color turn() {
+		return turn;
+	}
+
 	public Logger getLogger() {
 		return log;
 	}
@@ -161,7 +165,7 @@ public class Board {
 		else
 			throw new InvalidSquareException("Invalid Castling side");
 	}
-	
+
 	public Collection<Piece> getMovablePiecesTo(Square target, Collection<Piece> pieces) throws InvalidSquareException {
 		Collection<Piece> collection = new ArrayList<Piece>(pieces.size() + 2);
 		for (Piece p : pieces)
