@@ -120,8 +120,11 @@ public class Board {
 		this.enPassant = fen.enPassant;
 	}
 
-	public void makeMove(Piece p, Square from, Square to) {
-		// TODO makeMove
+	public void makeMove(Piece p, Square from, Square to) throws InvalidMoveException, InvalidSquareException {
+		if (p.getSquare() != from || p.canMove(to, this))
+			throw new InvalidMoveException("Invalid move attempted");
+		// TODO makeMove - specials are enPassant, Castle
+		// remember to disable castling appropriately
 		log.addMove(p, from, to, this);
 	}
 
