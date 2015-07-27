@@ -26,20 +26,20 @@ public class FEN {
 	}
 	
 	public static void validate(String fen) throws InvalidPositionException {
-		// TODO
+		// TODO FEN validation
 		throw new InvalidPositionException("Invalid FEN");
 	}
 	
 	public static FEN setup(Board board, String fenString) throws InvalidPositionException {
 		validate(fenString);
-		// TODO
+		// TODO FEN steup
 		FEN fen = null;
 		return fen;
 	}
 	
 	public String getFEN(Board board) {
 		StringBuffer fenString = new StringBuffer(100);
-		// TODO
+		// TODO getFEN
 		return fenString.toString();
 	}
 }

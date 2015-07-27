@@ -88,7 +88,7 @@ public abstract class Piece {
 		// ADD PIECES
 		return pieces;
 	}
-	
+
 	protected static int direction(int from, int to) {
 		return ((from < to) ? 1 : ((from > to) ? -1 : 0));
 	}

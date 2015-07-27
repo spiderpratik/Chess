@@ -26,6 +26,7 @@ public class Logger {
 
 	public void addMove(Piece p, Square from, Square to, Board board) {
 		// TODO - also do white and black turns
+		// TODO add move counter
 		boolean takes = to.getPiece() != Piece.BLANK;
 		longNotation.append(p.getPieceType().longName() + from.toString() + (takes ? "x" : "-") + to.toString());
 		// DO WORK FOR SHORT NOTATION
@@ -33,20 +34,20 @@ public class Logger {
 	}
 
 	public String getPNG() {
-		// TODO
+		// TODO getPNG
 		return null;
 	}
 
 	public void writePNG(String fileName) {
-		// TODO
+		// TODO writePNG
 	}
 
 	public void writePNGlong(String fileName) {
-		// TODO
+		// TODO writePNGlong
 	}
 	
 	public static FEN loadPNG(Board board, String fileName) {
-		// TODO
+		// TODOloadPNG
 		return null;
 	}
 }

@@ -2,8 +2,10 @@ package com.pratik.chess;
 
 public class Rook extends Piece {
 
-	protected Rook(Color color, String origin) {
+	public Rook(Color color, String origin) throws InvalidPositionException {
 		super(color, origin, PieceType.ROOK);
+		if (!origin.equals(Piece.KINGSIDE) && !origin.equals(Piece.QUEENSIDE))
+			throw new InvalidPositionException("Origin incorrectly set");
 	}
 
 	@Override
@@ -15,10 +17,10 @@ public class Rook extends Piece {
 		if (target.getPiece().getColor() == this.getColor())
 			return false;
 		char f = this.getSquare().file();
-		int fdir = direction(f, target.file()); 
+		int fdir = direction(f, target.file());
 		byte r = this.getSquare().rank();
 		int rdir = direction(r, target.rank());
-		for (; f < target.file() && r < target.rank(); f = (char) (f + fdir), r = (byte) (r + rdir))
+		for (; f != target.file() || r != target.rank(); f = (char) (f + fdir), r = (byte) (r + rdir))
 			if (!board.getSquares().get(Square.getString(f, r)).equals(Piece.BLANK))
 				return false;
 		return true;

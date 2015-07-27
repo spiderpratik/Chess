@@ -27,11 +27,11 @@ public class Board {
 		log = new Logger();
 		setupStartPosition();
 	}
-	
+
 	public Map<String, Square> getSquares() {
 		return board;
 	}
-	
+
 	public Collection<Piece> getPieces(PieceType type, Color color) {
 		Collection<Piece> collection = new ArrayList<Piece>();
 		if (type == null) {
@@ -39,8 +39,7 @@ public class Board {
 				collection.addAll(blacks);
 			if (color != Color.BLACK)
 				collection.addAll(whites);
-		}
-		else {
+		} else {
 			if (color != Color.WHITE)
 				for (Piece p : blacks)
 					if (p.getPieceType() == type)
@@ -59,13 +58,19 @@ public class Board {
 		for (Square s : board.values()) {
 			s.setPiece(Piece.BLANK);
 		}
+		log = new Logger();
+		enPassant = null;
+		turn = Color.WHITE;
+		castlewk = castlewq = castlebk = castlebq = false;
+		halfmoves = 0;
+		fullmoves = 1;
 	}
 
 	public void setStartPosition() throws InvalidPositionException {
 		clear();
 		setupStartPosition();
 	}
-	
+
 	private void setupStartPosition() {
 		whites.addAll(Piece.newPieces(Color.WHITE));
 		blacks.addAll(Piece.newPieces(Color.BLACK));
@@ -81,28 +86,27 @@ public class Board {
 		} catch (InvalidPositionException | InvalidSquareException e) {
 			e.printStackTrace();
 		}
-		castlewk = castlewq = castlebk =
-		castlebq = true;
+		castlewk = castlewq = castlebk = castlebq = true;
 		enPassant = null;
 	}
-	
+
 	public void importFEN(String fenString) throws InvalidPositionException {
 		FEN fen = FEN.setup(this, fenString);
 		clear();
 		FENsetup(fen);
 	}
-	
+
 	public String exportFEN() {
 		FEN fen = new FEN(halfmoves, fullmoves, turn, castlewk, castlewq, castlebk, castlebq, null, null, enPassant);
 		return fen.getFEN(this);
 	}
-	
+
 	public void loadPNG(String fileName) throws InvalidPositionException {
 		clear();
 		FEN fen = Logger.loadPNG(this, fileName);
 		FENsetup(fen);
 	}
-	
+
 	private void FENsetup(FEN fen) {
 		this.halfmoves = fen.halfmoves;
 		this.fullmoves = fen.fullmoves;
@@ -115,17 +119,50 @@ public class Board {
 		this.blacks.addAll(fen.blacks);
 		this.enPassant = fen.enPassant;
 	}
-	
+
 	public void makeMove(Piece p, Square from, Square to) {
-		// TODO
+		// TODO makeMove
 		log.addMove(p, from, to, this);
 	}
-	
-	public Collection<Piece> getMovablePiecesTo(Square target, Color color) {
-		// TODO (allow for color=null like in getPieces()
-		return null;
+
+	public boolean castlability(Color color, String side) throws InvalidSquareException {
+		if (side.equals(Piece.KINGSIDE))
+			if (color == Color.WHITE)
+				return castlewk;
+			else
+				return castlebk;
+		else if (side.equals(Piece.QUEENSIDE))
+			if (color == Color.WHITE)
+				return castlewq;
+			else
+				return castlebq;
+		else
+			throw new InvalidSquareException("Invalid Castling side");
+	}
+
+	public void disableCastling(Color color, String side) throws InvalidSquareException {
+		if (side.equals(Piece.KINGSIDE))
+			if (color == Color.WHITE)
+				castlewk = false;
+			else
+				castlebk = false;
+		else if (side.equals(Piece.QUEENSIDE))
+			if (color == Color.WHITE)
+				castlewq = false;
+			else
+				castlebq = false;
+		else
+			throw new InvalidSquareException("Invalid Castling side");
 	}
 	
+	public Collection<Piece> getMovablePiecesTo(Square target, Collection<Piece> pieces) throws InvalidSquareException {
+		Collection<Piece> collection = new ArrayList<Piece>(pieces.size() + 2);
+		for (Piece p : pieces)
+			if (p.canMove(target, this))
+				collection.add(p);
+		return collection;
+	}
+
 	public Square getEnpassantSquare() {
 		return enPassant;
 	}
@@ -138,8 +175,7 @@ public class Board {
 			if (file < 'a' || file > 'h' || !p.getOrigin().substring(1).equals(Piece.PAWN))
 				throw new InvalidPositionException("Origin incorrectly set");
 			rank = (byte) (p.getColor() == Color.WHITE ? 2 : 7);
-		}
-		else {
+		} else {
 			rank = (byte) (p.getColor() == Color.WHITE ? 1 : 8);
 			switch (p.getPieceType()) {
 			case KING: {
@@ -184,10 +220,11 @@ public class Board {
 					throw new InvalidPositionException("Origin incorrectly set");
 				break;
 			}
-			default: throw new InvalidPositionException("Invalid Piece Type");
+			default:
+				throw new InvalidPositionException("Invalid Piece Type");
 			}
 		}
-		
+
 		return Square.getString(file, rank);
 	}
 }
