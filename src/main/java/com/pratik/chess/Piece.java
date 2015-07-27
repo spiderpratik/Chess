@@ -85,7 +85,21 @@ public abstract class Piece {
 
 	public static final Collection<Piece> newPieces(Color color) {
 		List<Piece> pieces = new ArrayList<Piece>(20);
-		// ADD PIECES
+		try {
+			for (char f = 'a'; f <= 'h'; f++)
+				pieces.add(new Pawn(color, f));
+			pieces.add(new King(color));
+			pieces.add(new Queen(color));
+			pieces.add(new Rook(color, Piece.KINGSIDE));
+			pieces.add(new Rook(color, Piece.QUEENSIDE));
+			pieces.add(new Knight(color, Piece.KINGSIDE));
+			pieces.add(new Knight(color, Piece.QUEENSIDE));
+			pieces.add(new Bishop(color, Piece.KINGSIDE));
+			pieces.add(new Bishop(color, Piece.QUEENSIDE));
+		}
+		catch (InvalidPositionException e) {
+			e.printStackTrace();
+		}
 		return pieces;
 	}
 

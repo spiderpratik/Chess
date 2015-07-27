@@ -4,10 +4,8 @@ import java.util.Collection;
 
 public class King extends Piece {
 	
-	public King(Color color, String origin) throws InvalidPositionException {
-		super(color, origin, PieceType.KING);
-		if (!origin.equals(Piece.KINGSIDE))
-			throw new InvalidPositionException("Origin incorrectly set");
+	public King(Color color) throws InvalidPositionException {
+		super(color, Piece.KINGSIDE, PieceType.KING);
 	}
 
 	@Override

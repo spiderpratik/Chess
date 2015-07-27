@@ -89,6 +89,10 @@ public class Board {
 		castlewk = castlewq = castlebk = castlebq = true;
 		enPassant = null;
 	}
+	
+	public Logger getLogger() {
+		return log;
+	}
 
 	public void importFEN(String fenString) throws InvalidPositionException {
 		FEN fen = FEN.setup(this, fenString);

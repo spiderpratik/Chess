@@ -2,10 +2,8 @@ package com.pratik.chess;
 
 public class Queen extends Piece {
 
-	public Queen(Color color, String origin) throws InvalidPositionException {
-		super(color, origin, PieceType.QUEEN);
-		if (!origin.equals(Piece.QUEENSIDE))
-			throw new InvalidPositionException("Origin incorrectly set");
+	public Queen(Color color) throws InvalidPositionException {
+		super(color, Piece.QUEENSIDE, PieceType.QUEEN);
 	}
 
 	@Override

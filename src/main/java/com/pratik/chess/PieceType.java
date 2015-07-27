@@ -1,7 +1,7 @@
 package com.pratik.chess;
 
 public enum PieceType {
-	BLANK ("Blank", "0"),
+	BLANK ("Blank", "."),
 	ROOK ("Rook", "R"),
 	KNIGHT ("Knight", "N"),
 	BISHOP ("Bishop", "B"),
