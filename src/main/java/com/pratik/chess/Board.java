@@ -9,6 +9,7 @@ public class Board {
 	private final Map<String, Square> board;
 	private final Collection<Piece> whites;
 	private final Collection<Piece> blacks;
+	private final Runnable gui;
 	private Logger log; // TODO: make a dummy logger for edited boards
 
 	private Square enPassant;
@@ -25,6 +26,19 @@ public class Board {
 		whites = new ArrayList<Piece>(20);
 		blacks = new ArrayList<Piece>(20);
 		log = new Logger();
+		this.gui = new Runnable() {
+			@Override
+			public void run() {
+				while (true) {
+					try {
+						wait();
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+					GUI.drawBoard(Board.this);
+				}
+			}
+		};
 		setupStartPosition();
 	}
 
@@ -97,6 +111,10 @@ public class Board {
 	public Logger getLogger() {
 		return log;
 	}
+	
+	public Runnable gui() {
+		return gui;
+	}
 
 	public void importFEN(String fenString) throws InvalidPositionException {
 		FEN fen = FEN.setup(this, fenString);
@@ -134,6 +152,7 @@ public class Board {
 		// TODO makeMove - specials are enPassant, Castle
 		// remember to disable castling appropriately
 		log.addMove(p, from, to, this);
+		gui.notify();
 	}
 
 	public boolean castlability(Color color, String side) throws InvalidSquareException {
